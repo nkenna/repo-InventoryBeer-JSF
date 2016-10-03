@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListBeersTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListBeersEmpty}" rendered="#{beersController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{beersController.items.rowCount > 0}">
+                    <h:outputText value="#{beersController.pagination.pageFirstItem + 1}..#{beersController.pagination.pageLastItem + 1}/#{beersController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{beersController.previous}" value="#{bundle.Previous} #{beersController.pagination.pageSize}" rendered="#{beersController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{beersController.next}" value="#{bundle.Next} #{beersController.pagination.pageSize}" rendered="#{beersController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{beersController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeersTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeersTitle_beername}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.beername}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeersTitle_price}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{beersController.prepareView}" value="#{bundle.ListBeersViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{beersController.prepareEdit}" value="#{bundle.ListBeersEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{beersController.destroy}" value="#{bundle.ListBeersDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{beersController.prepareCreate}" value="#{bundle.ListBeersCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListBeersIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
